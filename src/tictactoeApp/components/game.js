@@ -22,18 +22,11 @@ class Game extends Component {
     if (calculateWinner(squares) || squares[index]) return;
     squares[index] = this.state.xIsNext ? "X" : "O";
     this.setState({
-      history: history.concat([{ squares: squares, location: [index] }]), //Unlike the array push() method you might be more familiar with, the concat() method doesn’t mutate the original array, so we prefer it.
+      history: history.concat([{ squares, location: [index] }]), // Unlike the array push() method you might be more familiar with, the concat() method doesn’t mutate the original array, so we prefer it.
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length
     });
   };
-
-  jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      xIsNext: step % 2 === 0
-    });
-  }
 
   gameStatus = squares => {
     const winning_squares = calculateWinner(squares);
@@ -44,7 +37,7 @@ class Game extends Component {
     } else {
       status = squares.includes(null)
         ? `Next player is: ${this.state.xIsNext ? "X" : "O"}`
-        : `Game draw!!!`;
+        : "Game draw!!!";
       this.winner_array = winning_squares;
     }
     return status;
@@ -54,6 +47,13 @@ class Game extends Component {
     this.setState(previousState => ({ sortMoves: !previousState.sortMoves }));
   };
 
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      xIsNext: step % 2 === 0
+    });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -61,12 +61,7 @@ class Game extends Component {
     const location = this.winner_array ? this.winner_array : current.location;
 
     const moves = history.map((step, move) => {
-      const desc = move
-        ? `Go to move #${move} (${
-            step.squares[step.location]
-          } at row ${Math.floor(step.location / 3) +
-            1} & coulmn ${(step.location % 3) + 1})`
-        : `Go to game start`;
+      const desc = move ? `Go to move #${move}` : "Go to game start";
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>

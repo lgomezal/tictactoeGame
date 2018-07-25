@@ -26,6 +26,7 @@ class Board extends React.Component {
     return (
       <Square
         key={`square-${i}`}
+        const
         highlight={this.props.location.includes(i) ? 'highlight-current' : ''}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
