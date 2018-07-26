@@ -1,46 +1,44 @@
-import React from 'react';
-import Square from './square';
+import React from "react";
+import PropTypes from "prop-types";
 
-class Board extends React.Component {
-  rowSquare(index) {
-    const rowSquare = [];
-    for (let i = index; i < index + 3; i += 1) {
-      rowSquare.push(this.renderSquare(i));
-    }
-    return rowSquare;
-  }
+import Square from "./square";
 
-  boardRow() {
-    const boardRow = [];
-    for (let i = 0; i < 3; i += 1) {
-      boardRow.push(
-        <div key={`board-row-${i}`} className="board-row">
-          {this.rowSquare(i * 3)}
-        </div>,
-      );
-    }
-    return boardRow;
-  }
-
-  renderSquare(i) {
+const Board = ({ squares, onClick }) => {
+  function renderSquare(i) {
     return (
       <Square
         key={`square-${i}`}
         const
-        highlight={this.props.location.includes(i) ? 'highlight-current' : ''}
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={squares[i]}
+        onClick={() => onClick(i)}
       />
     );
   }
 
-  render() {
-    return (
-      <div>
-        {this.boardRow()}
-      </div>
-    );
+  function rowSquare(index) {
+    const cols = [];
+    for (let col = 0; col < 3; col += 1) {
+      cols.push(renderSquare(index + col));
+    }
+    return cols;
   }
-}
+
+  return squares.map((val, i) => {
+    if (i % 3 === 0) {
+      const row = i / 3;
+      return (
+        <div key={row} className="board-row">
+          {rowSquare(i)}
+        </div>
+      );
+    }
+
+    return null;
+  });
+};
+
+Board.propTypes = {
+  squares: PropTypes.arrayOf.isRequired
+};
 
 export default Board;

@@ -50,8 +50,3 @@ ul {
 .game-body .game-info {
   margin-left: 50px;
 }
-
-.highlight-current {
-  color: white;
-  background: black !important;
-}
