@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
+import logo from "./tic-tac-toe.png";
 import "./App.css";
 import Game from "./tictactoeApp/components/game";
 
